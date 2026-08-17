@@ -1,39 +1,39 @@
 from functools import cache
 
 class Solution:
-    def stoneGameV(self, stoneValue):
-        n = len(stoneValue)
-
-        prefix = [0] * (n + 1)
+    def stoneGameV(self, a):
+        n = len(a)
+        s = [0] * (n + 1)
 
         for i in range(n):
-            prefix[i + 1] = prefix[i] + stoneValue[i]
+            s[i + 1] = s[i] + a[i]
 
         @cache
         def dp(l, r):
             if l >= r:
                 return 0
 
-            ans = 0
-            left = 0
-            right = prefix[r + 1] - prefix[l]
+            ans = left = 0
+            right = s[r + 1] - s[l]
 
             for k in range(l, r):
-                left += stoneValue[k]
-                right -= stoneValue[k]
+                left += a[k]
+                right -= a[k]
 
                 if left < right:
+                    if ans >= 2 * left:
+                        continue
                     ans = max(ans, left + dp(l, k))
 
                 elif left > right:
+                    if ans >= 2 * right:
+                        break
                     ans = max(ans, right + dp(k + 1, r))
 
                 else:
-                    ans = max(
-                        ans,
-                        left + dp(l, k),
-                        right + dp(k + 1, r)
-                    )
+                    ans = max(ans,
+                              left + dp(l, k),
+                              right + dp(k + 1, r))
 
             return ans
 
