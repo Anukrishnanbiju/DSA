@@ -14,12 +14,12 @@ class Solution:
             n = len(a)
 
             for i in range(1, n):
-                # No swap
+             
                 if (dfs(a[:i], b[:i]) and
                     dfs(a[i:], b[i:])):
                     return True
 
-                # Swap
+              
                 if (dfs(a[:i], b[n-i:]) and
                     dfs(a[i:], b[:n-i])):
                     return True
